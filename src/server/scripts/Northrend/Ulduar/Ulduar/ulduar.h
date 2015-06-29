@@ -151,8 +151,13 @@ enum UlduarNPCs
     NPC_FREYA_ACHIEVE_TRIGGER               = 33406,
 
     // Thorim
-    NPC_THORIM                              = 32865,
     NPC_THORIM_INVISIBLE_STALKER            = 32780,
+    NPC_JORMUNGAR_BEHEMOTH                  = 32882,
+    NPC_MERCENARY_CAPTAIN_A                 = 32908,
+    NPC_MERCENARY_CAPTAIN_H                 = 32907,
+    NPC_MERCENARY_SOLDIER_A                 = 32885,
+    NPC_MERCENARY_SOLDIER_H                 = 32883,
+    NPC_DARK_RUNE_ACOLYTE_PRE               = 32886,
     NPC_RUNIC_COLOSSUS                      = 32872,
     NPC_RUNE_GIANT                          = 32873,
     NPC_IRON_RING_GUARD                     = 32874,
@@ -168,6 +173,7 @@ enum UlduarNPCs
     NPC_GOLEM_LEFT_HAND_BUNNY               = 33141,
     NPC_SIF                                 = 33196,
     NPC_THUNDER_ORB                         = 33378,
+    NPC_THORIM_CONTROLLER                   = 32879,
 
     // Yogg-Saron
     NPC_SARA                                = 33134,
@@ -260,7 +266,7 @@ enum UlduarGameObjects
     GO_THORIM_RUNIC_DOOR                    = 194557,
     GO_THORIM_STONE_DOOR                    = 194558,
     GO_THORIM_ENCOUNTER_DOOR                = 194559,
-    GO_THORIM_LEVER                         = 194265,
+    GO_THORIM_LEVER                         = 194264,
 
     // Mimiron
     GO_MIMIRON_TRAM                         = 194675,
@@ -410,7 +416,7 @@ enum UlduarData
     DATA_HODIR_YS,
     DATA_THORIM_YS,
     DATA_MIMIRON_YS,
-    DATA_ILLUSION, // = 38 used by conditions
+    DATA_ILLUSION, // = 46 used by conditions
     DATA_DRIVE_ME_CRAZY,
     DATA_KEEPERS_COUNT,
 
@@ -433,6 +439,7 @@ enum UlduarData
     DATA_RUNIC_DOOR,
     DATA_STONE_DOOR,
     DATA_THORIM_HARDMODE,
+    DATA_THORIM_CONTROLLER,
 
     // Misc
     DATA_BRANN_BRONZEBEARD_INTRO,
@@ -457,8 +464,8 @@ enum UlduarAchievementData
 
 enum UlduarSharedSpells
 {
-    SPELL_LUMBERJACKED_CREDIT   = 65296,
-    SPELL_TELEPORT_VISUAL       = 62940, // used by keepers
+    SPELL_LUMBERJACKED_CREDIT    = 65296,
+    SPELL_TELEPORT_KEEPER_VISUAL = 62940, // used by keepers
 };
 
 enum UlduarEvents
@@ -490,7 +497,7 @@ class KeeperDespawnEvent : public BasicEvent
 
         bool Execute(uint64 /*eventTime*/, uint32 /*updateTime*/) override
         {
-            _owner->CastSpell(_owner, SPELL_TELEPORT_VISUAL);
+            _owner->CastSpell(_owner, SPELL_TELEPORT_KEEPER_VISUAL);
             _owner->DespawnOrUnsummon(1000 + _despawnTimer);
             return true;
         }
