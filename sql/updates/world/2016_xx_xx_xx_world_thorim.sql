@@ -79,6 +79,8 @@ INSERT INTO `spell_linked_spell` (`spell_trigger`, `spell_effect`, `type`, `comm
 
 -- Add dummy effect to kill credit so it actually selects targets
 UPDATE `spell_dbc` SET `EffectImplicitTargetA1`=18, `EffectImplicitTargetB1`=16, `EffectRadiusIndex1`=28, `SchoolMask`=0, `Effect1`=3 WHERE `Id`=64980;
+-- Correct attributes (SPELL_ATTR0_HIDE_IN_COMBAT_LOG, SPELL_ATTR2_CAN_TARGET_DEAD, SPELL_ATTR2_CAN_TARGET_NOT_IN_LOS)
+UPDATE `spell_dbc` SET `Attributes`=`Attributes`|256, `AttributesEx2`=`AttributesEx2`|1|4 WHERE `Id` IN (64980,64985);
 
 DELETE FROM `spelldifficulty_dbc` WHERE `id` IN (62131,62315,62316,62333,62334,62335,62327,62328,62321,62331,62332,62613,62583,62577,62597,62580);
 INSERT INTO `spelldifficulty_dbc` (`id`, `spellid0`, `spellid1`) VALUES
@@ -179,6 +181,7 @@ DELETE FROM `creature` WHERE `id`=32879;
 INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `spawndist`, `MovementType`) VALUES
 (@CGUID, 32879, 603, 3, 1, 2134.774, -262.3073, 428.6936, 1.343904, 7200, 0, 0); -- 32879 (Area: 0) (Auras: 62184 - 62184)
 
+UPDATE `gameobject_loot_template` SET `LootMode`=1 WHERE `Entry`=27074;
 DELETE FROM `gameobject_loot_template` WHERE `Entry` IN (26955,26956);
 INSERT INTO `gameobject_loot_template` (`Entry`,`Item`,`Reference`,`Chance`,`QuestRequired`,`LootMode`,`GroupId`,`MinCount`,`MaxCount`,`Comment`) VALUES
 (26955,1,34372,100,0,1,0,1,1,'Thorim25 HM - normal mode loot'),

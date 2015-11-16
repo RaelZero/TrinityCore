@@ -2151,7 +2151,7 @@ class condition_thorim_arena_leap : public ConditionScript
     public:
         condition_thorim_arena_leap() : ConditionScript("condition_thorim_arena_leap"), _check(false) { }
 
-        bool OnConditionCheck(Condition* condition, ConditionSourceInfo& sourceInfo) override
+        bool OnConditionCheck(Condition const* condition, ConditionSourceInfo& sourceInfo) override
         {
             WorldObject* target = sourceInfo.mConditionTargets[condition->ConditionTarget];
             InstanceScript* instance = target->GetInstanceScript();
