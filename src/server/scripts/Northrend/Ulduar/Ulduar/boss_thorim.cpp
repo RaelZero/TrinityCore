@@ -520,7 +520,7 @@ class boss_thorim : public CreatureScript
 
             void SpellHitTarget(Unit* who, SpellInfo const* spellInfo) override
             {
-                if (who->GetTypeId() == TYPEID_PLAYER && spellInfo->Id == SPELL_LIGHTNING_CHARGE)
+                if (who->GetTypeId() == TYPEID_PLAYER && spellInfo->Id == SPELL_LIGHTNING_RELEASE)
                     _dontStandInTheLightning = false;
             }
 
