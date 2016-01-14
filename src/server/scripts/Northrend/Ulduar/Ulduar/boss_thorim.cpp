@@ -637,7 +637,7 @@ class boss_thorim : public CreatureScript
                 BossAI::JustSummoned(summon);
             }
 
-            void UpdateAI(uint32 /*diff*/) override
+            void UpdateAI(uint32 diff) override
             {
                 if (!UpdateVictim())
                     return;
@@ -1222,13 +1222,13 @@ class npc_thorim_arena_phase : public CreatureScript
                         colossus->AI()->DoAction(ACTION_ACTIVATE_RUNIC_SMASH);
             }
 
-            void EnterEvadeMode() override
+            void EnterEvadeMode(EvadeReason why) override
             {
                 // this should only happen if theres no alive player in the arena -> summon orb
                 // might be called by mind control release or controllers death?
                 if (Creature* thorim = ObjectAccessor::GetCreature(*me, _instance->GetGuidData(BOSS_THORIM)))
                     thorim->AI()->DoAction(ACTION_BERSERK);
-                ScriptedAI::EnterEvadeMode();
+                ScriptedAI::EnterEvadeMode(why);
             }
 
             void ExecuteEvent(uint32 eventId) override
