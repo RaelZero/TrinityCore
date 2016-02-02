@@ -1109,7 +1109,7 @@ class npc_thorim_pre_phase : public CreatureScript
                 me->setActive(true); // prevent grid unload
             }
 
-            void Reset()
+            void Reset() override
             {
                 _events.Reset();
                 if (_info->PrimaryAbility)
@@ -1122,7 +1122,7 @@ class npc_thorim_pre_phase : public CreatureScript
                     SetCombatMovement(false);
             }
 
-            void JustDied(Unit* /*victim*/)
+            void JustDied(Unit* /*victim*/) override
             {
                 if (Creature* thorim = ObjectAccessor::GetCreature(*me, _instance->GetGuidData(BOSS_THORIM)))
                     thorim->AI()->DoAction(ACTION_INCREASE_PREADDS_COUNT);
@@ -1212,7 +1212,7 @@ class npc_thorim_arena_phase : public CreatureScript
                     _events.ScheduleEvent(EVENT_ABILITY_CHARGE, 8000);
             }
 
-            void EnterCombat(Unit* /*who*/)
+            void EnterCombat(Unit* /*who*/) override
             {
                 if (_info->Type == DARK_RUNE_WARBRINGER)
                     DoCast(me, SPELL_AURA_OF_CELERITY);
@@ -1868,10 +1868,7 @@ class spell_thorim_stormhammer : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*>& targets)
             {
-                targets.remove_if([](WorldObject* target)
-                {
-                    return !IN_ARENA(target);
-                });
+                targets.remove_if([](WorldObject* target) -> bool { return !IN_ARENA(target); });
 
                 if (targets.empty())
                 {
