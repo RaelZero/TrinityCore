@@ -1683,7 +1683,8 @@ class spell_thorim_blizzard_effect : public SpellScriptLoader
                             return false;
                     }
                 }
-                return true;
+
+                return target->GetExactDist2d(GetOwner()) <= GetSpellInfo()->Effects[EFFECT_0].CalcRadius();
             }
 
             void Register() override
