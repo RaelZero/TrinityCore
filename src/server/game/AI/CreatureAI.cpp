@@ -133,7 +133,7 @@ void CreatureAI::MoveInLineOfSight(Unit* who)
     if (me->GetCreatureType() == CREATURE_TYPE_NON_COMBAT_PET) // non-combat pets should just stand there and look good;)
         return;
 
-    if (me->CanStartAttack(who, false))
+    if (me->HasReactState(REACT_AGGRESSIVE) && me->CanStartAttack(who, false))
         AttackStart(who);
     //else if (who->GetVictim() && me->IsFriendlyTo(who)
     //    && me->IsWithinDistInMap(who, sWorld->getIntConfig(CONFIG_CREATURE_FAMILY_ASSISTANCE_RADIUS))
@@ -283,7 +283,7 @@ bool CreatureAI::_EnterEvadeMode(EvadeReason /*why*/)
 int32 CreatureAI::VisualizeBoundary(uint32 duration, Unit* owner, bool fill) const
 {
     typedef std::pair<int32, int32> coordinate;
-    
+
     if (!owner)
         return -1;
 
@@ -293,7 +293,7 @@ int32 CreatureAI::VisualizeBoundary(uint32 duration, Unit* owner, bool fill) con
     std::queue<coordinate> Q;
     std::unordered_set<coordinate> alreadyChecked;
     std::unordered_set<coordinate> outOfBounds;
-    
+
     Position startPosition = owner->GetPosition();
     if (!CheckBoundary(&startPosition)) // fall back to creature position
     {
@@ -350,7 +350,7 @@ int32 CreatureAI::VisualizeBoundary(uint32 duration, Unit* owner, bool fill) con
     return boundsWarning ? LANG_CREATURE_MOVEMENT_MAYBE_UNBOUNDED : 0;
 }
 
-bool CreatureAI::CheckBoundary(Position* who) const
+bool CreatureAI::CheckBoundary(Position const* who) const
 {
     if (!who)
         who = me;

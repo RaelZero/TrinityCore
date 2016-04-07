@@ -547,6 +547,29 @@ void BossAI::UpdateAI(uint32 diff)
     DoMeleeAttackIfReady();
 }
 
+void BossAI::_DespawnAtEvade(uint32 delayToRespawn)
+{
+    if (delayToRespawn < 2)
+    {
+        TC_LOG_ERROR("scripts", "_DespawnAtEvade called with delay of %u seconds, defaulting to 2.", delayToRespawn);
+        delayToRespawn = 2;
+    }
+
+    uint32 corpseDelay = me->GetCorpseDelay();
+    uint32 respawnDelay = me->GetRespawnDelay();
+
+    me->SetCorpseDelay(1);
+    me->SetRespawnDelay(delayToRespawn - 1);
+
+    me->DespawnOrUnsummon();
+
+    me->SetCorpseDelay(corpseDelay);
+    me->SetRespawnDelay(respawnDelay);
+
+    if (instance)
+        instance->SetBossState(_bossId, FAIL);
+}
+
 // WorldBossAI - for non-instanced bosses
 
 WorldBossAI::WorldBossAI(Creature* creature) :
@@ -605,27 +628,27 @@ void WorldBossAI::UpdateAI(uint32 diff)
 }
 
 // SD2 grid searchers.
-Creature* GetClosestCreatureWithEntry(WorldObject* source, uint32 entry, float maxSearchRange, bool alive /*= true*/)
+TC_GAME_API Creature* GetClosestCreatureWithEntry(WorldObject* source, uint32 entry, float maxSearchRange, bool alive /*= true*/)
 {
     return source->FindNearestCreature(entry, maxSearchRange, alive);
 }
 
-GameObject* GetClosestGameObjectWithEntry(WorldObject* source, uint32 entry, float maxSearchRange)
+TC_GAME_API GameObject* GetClosestGameObjectWithEntry(WorldObject* source, uint32 entry, float maxSearchRange)
 {
     return source->FindNearestGameObject(entry, maxSearchRange);
 }
 
-void GetCreatureListWithEntryInGrid(std::list<Creature*>& list, WorldObject* source, uint32 entry, float maxSearchRange)
+TC_GAME_API void GetCreatureListWithEntryInGrid(std::list<Creature*>& list, WorldObject* source, uint32 entry, float maxSearchRange)
 {
     source->GetCreatureListWithEntryInGrid(list, entry, maxSearchRange);
 }
 
-void GetGameObjectListWithEntryInGrid(std::list<GameObject*>& list, WorldObject* source, uint32 entry, float maxSearchRange)
+TC_GAME_API void GetGameObjectListWithEntryInGrid(std::list<GameObject*>& list, WorldObject* source, uint32 entry, float maxSearchRange)
 {
     source->GetGameObjectListWithEntryInGrid(list, entry, maxSearchRange);
 }
 
-void GetPlayerListInGrid(std::list<Player*>& list, WorldObject* source, float maxSearchRange)
+TC_GAME_API void GetPlayerListInGrid(std::list<Player*>& list, WorldObject* source, float maxSearchRange)
 {
     source->GetPlayerListInGrid(list, maxSearchRange);
 }
