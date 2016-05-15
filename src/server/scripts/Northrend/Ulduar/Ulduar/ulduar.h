@@ -416,7 +416,7 @@ enum UlduarData
     DATA_HODIR_YS,
     DATA_THORIM_YS,
     DATA_MIMIRON_YS,
-    DATA_ILLUSION, // = 46 used by conditions
+    DATA_ILLUSION,
     DATA_DRIVE_ME_CRAZY,
     DATA_KEEPERS_COUNT,
 

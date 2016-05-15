@@ -2,8 +2,6 @@
  * Thorim
  */
 
--- todo: immunity runic colossus, rune giant grip
-
 DELETE FROM `creature_text` WHERE `entry` IN (32865,32872,32873,33196);
 INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `BroadcastTextID`, `comment`) VALUES
 -- Thorim
@@ -50,7 +48,6 @@ UPDATE `creature_template` SET `AIName`='SmartAI', `flags_extra`=2 WHERE `entry`
 DELETE FROM `smart_scripts` WHERE `entryorguid`=@ENTRY AND `source_type`=0;
 INSERT INTO `smart_scripts` (`entryorguid`,`source_type`,`id`,`link`,`event_type`,`event_phase_mask`,`event_chance`,`event_flags`,`event_param1`,`event_param2`,`event_param3`,`event_param4`,`action_type`,`action_param1`,`action_param2`,`action_param3`,`action_param4`,`action_param5`,`action_param6`,`target_type`,`target_param1`,`target_param2`,`target_param3`,`target_x`,`target_y`,`target_z`,`target_o`,`comment`) VALUES
 (@ENTRY,0,0,0,10,0,100,0,0,12,17000,17000,11,63540,0,0,0,0,0,1,0,0,0,0,0,0,0,'Thorim Trap Bunny - Within 0-12 Range Out of Combat LoS - Cast Paralytic Field');
-
 
 DELETE FROM `spell_script_names` WHERE `spell_id` IN (62577,62603,62576,62602,62580,62604,62016,62057,62058,62042,62184,62466,64767,64909,62184,62331,62418,61934);
 INSERT INTO `spell_script_names` (`spell_id`, `ScriptName`) VALUES
@@ -155,7 +152,7 @@ INSERT INTO `disables` (`sourceType`, `entry`, `flags`, `params_0`, `params_1`, 
 (0, 64767, 64, '', '', 'Stormhammer - Ignore LOS'),
 (0, 45537, 64, '', '', 'Lightning Beam Channel - Ignore LOS');
 
-DELETE FROM `achievement_criteria_data` WHERE `criteria_id` IN (10289,10314,10305,10309,10440,10457);
+DELETE FROM `achievement_criteria_data` WHERE `criteria_id` IN (10289,10314,10305,10309,10440,10457,10287,10288,10311,10312);
 INSERT INTO `achievement_criteria_data` (`criteria_id`,`type`,`value1`,`value2`,`ScriptName`) VALUES
 (10289,12,0,0,''), -- Siffed (10 player)
 (10314,12,1,0,''), -- Siffed (25 player)
@@ -168,7 +165,16 @@ INSERT INTO `achievement_criteria_data` (`criteria_id`,`type`,`value1`,`value2`,
 (10440,11,0,0,'achievement_lose_your_illusion'), -- Lose Your Illusion (10 player)
 (10440,12,0,0,''),                               -- Lose Your Illusion (10 player)
 (10457,11,0,0,'achievement_lose_your_illusion'), -- Lose Your Illusion (25 player)
-(10457,12,1,0,'');                               -- Lose Your Illusion (25 player)
+(10457,12,1,0,''),                               -- Lose Your Illusion (25 player)
+
+(10287,11,0,0,'achievement_i_ll_take_you_all_on'), -- I'll Take You All On (10 player) - Participate in slaying Runic Colossus
+(10287,12,0,0,''),
+(10288,11,0,0,'achievement_i_ll_take_you_all_on'), -- I'll Take You All On (10 player) - Participate in slaying Ancient Rune Giant
+(10288,12,0,0,''),
+(10311,11,0,0,'achievement_i_ll_take_you_all_on'), -- I'll Take You All On (25 player) - Participate in slaying Runic Colossus
+(10311,12,1,0,''),
+(10312,11,0,0,'achievement_i_ll_take_you_all_on'), -- I'll Take You All On (25 player) - Participate in slaying Ancient Rune Giant
+(10312,12,1,0,'');
 
 UPDATE `gameobject_template` SET `faction`=94, `flags`=16, `size`=3 WHERE `entry` IN (194312,194313,194314,194315);
 

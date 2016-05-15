@@ -269,8 +269,6 @@ enum Actions
     ACTION_BERSERK
 };
 
-#define IN_ARENA(who) (who->GetPositionX() < 2181.19f && who->GetPositionY() > -299.12f)
-
 struct SummonLocation
 {
     Position pos;
@@ -409,6 +407,11 @@ class LightningFieldEvent : public BasicEvent
     private:
         Creature* _owner;
 };
+
+bool IsInArena(Position const* pos)
+{
+    return (pos->GetPositionX() < 2181.19f && pos->GetPositionY() > -299.12f);
+}
 
 class boss_thorim : public CreatureScript
 {
@@ -610,8 +613,7 @@ class boss_thorim : public CreatureScript
                         summon->SetReactState(REACT_PASSIVE);
                         summon->CastSpell(summon, SPELL_LIGHTNING_DESTRUCTION, true);
 
-                        Position pos(LightningOrbPath[LightningOrbPathSize - 1].x, LightningOrbPath[LightningOrbPathSize - 1].y, LightningOrbPath[LightningOrbPathSize - 1].z);
-                        summon->GetMotionMaster()->MovePoint(EVENT_CHARGE_PREPATH, pos, false);
+                        summon->GetMotionMaster()->MovePoint(EVENT_CHARGE_PREPATH, LightningOrbPath[LightningOrbPathSize - 1], false);
 
                         Movement::PointsArray path(LightningOrbPath, LightningOrbPath + LightningOrbPathSize);
 
@@ -1196,7 +1198,7 @@ class npc_thorim_arena_phase : public CreatureScript
 
             bool CanAIAttack(Unit const* who) const override
             {
-                return _isInArena == IN_ARENA(who);
+                return _isInArena == IsInArena(who);
             }
 
             void Reset() override
@@ -1254,10 +1256,13 @@ class npc_thorim_arena_phase : public CreatureScript
                             _events.ScheduleEvent(eventId, 1000);
                         break;
                     case EVENT_ABILITY_CHARGE:
-                        if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, [this](Unit* unit) { return unit->GetTypeId() == TYPEID_PLAYER && unit->IsInRange(me, 8.0f, 25.0f); }))
+                    {
+                        Unit* referer = me;
+                        if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, [referer](Unit* unit){ return unit->GetTypeId() == TYPEID_PLAYER && unit->IsInRange(referer, 8.0f, 25.0f); }))
                             DoCast(target, SPELL_CHARGE);
                         _events.ScheduleEvent(eventId, 12000);
                         break;
+                    }
                     default:
                         break;
                 }
@@ -1395,10 +1400,13 @@ class npc_runic_colossus : public CreatureScript
                             _events.ScheduleEvent(eventId, urand(15000, 18000));
                             break;
                         case EVENT_RUNIC_CHARGE:
-                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, [this](Unit* unit) { return unit->GetTypeId() == TYPEID_PLAYER && unit->IsInRange(me, 8.0f, 40.0f); }))
+                        {
+                            Unit* referer = me;
+                            if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, [referer](Unit* unit){ return unit->GetTypeId() == TYPEID_PLAYER && unit->IsInRange(referer, 8.0f, 40.0f); }))
                                 DoCast(target, SPELL_RUNIC_CHARGE);
                             _events.ScheduleEvent(eventId, 20000);
                             break;
+                        }
                         case EVENT_RUNIC_SMASH:
                             DoCast(me, RAND(SPELL_RUNIC_SMASH_LEFT, SPELL_RUNIC_SMASH_RIGHT));
                             _events.ScheduleEvent(eventId, 6000);
@@ -1869,7 +1877,7 @@ class spell_thorim_stormhammer : public SpellScriptLoader
 
             void FilterTargets(std::list<WorldObject*>& targets)
             {
-                targets.remove_if([](WorldObject* target) -> bool { return !IN_ARENA(target); });
+                targets.remove_if([](WorldObject* target) -> bool { return !IsInArena(target); });
 
                 if (targets.empty())
                 {
@@ -2144,6 +2152,17 @@ class achievement_lose_your_illusion : public AchievementCriteriaScript
         }
 };
 
+class achievement_i_ll_take_you_all_on : public AchievementCriteriaScript
+{
+    public:
+        achievement_i_ll_take_you_all_on() : AchievementCriteriaScript("achievement_i_ll_take_you_all_on") { }
+
+        bool OnCheck(Player* source, Unit* /*target*/) override
+        {
+            return !IsInArena(source);
+        }
+};
+
 class condition_thorim_arena_leap : public ConditionScript
 {
     public:
@@ -2186,5 +2205,6 @@ void AddSC_boss_thorim()
     new spell_iron_ring_guard_impale();
     new achievement_dont_stand_in_the_lightning();
     new achievement_lose_your_illusion();
+    new achievement_i_ll_take_you_all_on();
     new condition_thorim_arena_leap();
 }

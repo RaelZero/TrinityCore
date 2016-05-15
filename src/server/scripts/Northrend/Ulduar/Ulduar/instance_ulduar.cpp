@@ -821,8 +821,6 @@ class instance_ulduar : public InstanceMapScript
                                 }
                             }
 
-                            //CheckGateOfTheKeepers();
-
                             instance->SummonCreature(NPC_THORIM_OBSERVATION_RING, ObservationRingKeepersPos[2]);
                         }
                         break;
