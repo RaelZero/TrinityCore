@@ -809,6 +809,8 @@ class instance_ulduar : public InstanceMapScript
                         }
                         break;
                     case BOSS_THORIM:
+                        DoCloseDoorOrButton(ThorimLeverGUID);
+
                         if (state == DONE)
                         {
                             if (Creature* thorim = instance->GetCreature(ThorimGUID))
