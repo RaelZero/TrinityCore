@@ -54,6 +54,10 @@ static DoorData const doorData[] =
     { GO_MIMIRON_DOOR_2,                BOSS_MIMIRON,           DOOR_TYPE_ROOM },
     { GO_MIMIRON_DOOR_3,                BOSS_MIMIRON,           DOOR_TYPE_ROOM },
     { GO_THORIM_ENCOUNTER_DOOR,         BOSS_THORIM,            DOOR_TYPE_ROOM },
+    { GO_ANCIENT_GATE_OF_THE_KEEPERS,   BOSS_HODIR,             DOOR_TYPE_PASSAGE },
+    { GO_ANCIENT_GATE_OF_THE_KEEPERS,   BOSS_MIMIRON,           DOOR_TYPE_PASSAGE },
+    { GO_ANCIENT_GATE_OF_THE_KEEPERS,   BOSS_THORIM,            DOOR_TYPE_PASSAGE },
+    { GO_ANCIENT_GATE_OF_THE_KEEPERS,   BOSS_FREYA,             DOOR_TYPE_PASSAGE },
     { GO_VEZAX_DOOR,                    BOSS_VEZAX,             DOOR_TYPE_PASSAGE },
     { GO_YOGG_SARON_DOOR,               BOSS_YOGG_SARON,        DOOR_TYPE_ROOM },
     { GO_DOODAD_UL_SIGILDOOR_03,        BOSS_ALGALON,           DOOR_TYPE_ROOM },
@@ -568,6 +572,7 @@ class instance_ulduar : public InstanceMapScript
                     case GO_THORIM_ENCOUNTER_DOOR:
                     case GO_VEZAX_DOOR:
                     case GO_YOGG_SARON_DOOR:
+                    case GO_ANCIENT_GATE_OF_THE_KEEPERS:
                         AddDoor(gameObject, true);
                         break;
                     case GO_RAZOR_HARPOON_1:
@@ -656,6 +661,7 @@ class instance_ulduar : public InstanceMapScript
                     case GO_THORIM_ENCOUNTER_DOOR:
                     case GO_VEZAX_DOOR:
                     case GO_YOGG_SARON_DOOR:
+                    case GO_ANCIENT_GATE_OF_THE_KEEPERS:
                     case GO_DOODAD_UL_SIGILDOOR_03:
                     case GO_DOODAD_UL_UNIVERSEFLOOR_01:
                     case GO_DOODAD_UL_UNIVERSEFLOOR_02:

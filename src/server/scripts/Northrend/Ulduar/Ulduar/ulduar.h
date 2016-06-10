@@ -249,6 +249,8 @@ enum UlduarGameObjects
     GO_KOLOGARN_BRIDGE                      = 194232,
     GO_KOLOGARN_DOOR                        = 194553,
 
+    GO_ANCIENT_GATE_OF_THE_KEEPERS          = 194255,
+
     // Hodir
     GO_HODIR_ENTRANCE                       = 194442,
     GO_HODIR_DOOR                           = 194634,
