@@ -2594,16 +2594,19 @@ void WorldObject::BuildUpdate(UpdateDataMapType& data_map)
     WorldObjectChangeAccumulator notifier(*this, data_map);
     TypeContainerVisitor<WorldObjectChangeAccumulator, WorldTypeMapContainer > player_notifier(notifier);
     Map& map = *GetMap();
-    //we must build packets for all visible players
-    cell.Visit(p, player_notifier, map, *this, GetVisibilityRange());
-
-    bool hadDisplayId = _changesMask.GetBit(UNIT_FIELD_DISPLAYID);
-    ClearUpdateMask(false);
 
     // Masquerade system - ensure client gets actual race data again now that display id has returned to normal (prevent client bugs for invalid class/race combination)
     if (Player* player = ToPlayer())
-        if (hadDisplayId && player->IsMasqueradingRace() && player->GetDisplayId() == player->GetNativeDisplayId())
+        if (_changesMask.GetBit(UNIT_FIELD_DISPLAYID) && player->IsMasqueradingRace() && player->GetDisplayId() == player->GetNativeDisplayId())
+        {
+            _changesMask.SetBit(UNIT_FIELD_BYTES_0);
             player->NotifyMasqueradeRaceDirty();
+        }
+
+    //we must build packets for all visible players
+    cell.Visit(p, player_notifier, map, *this, GetVisibilityRange());
+
+    ClearUpdateMask(false);
 }
 
 void WorldObject::AddToObjectUpdate()
