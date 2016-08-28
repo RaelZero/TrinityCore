@@ -474,6 +474,12 @@ class boss_thorim : public CreatureScript
                 _activePillarGUID.Clear();
             }
 
+            void EnterEvadeMode(EvadeReason /*why*/) override
+            {
+                summons.DespawnAll();
+                _DespawnAtEvade();
+            }
+
             void SetGUID(ObjectGuid guid, int32 type) override
             {
                 if (type == DATA_CHARGED_PILLAR)
