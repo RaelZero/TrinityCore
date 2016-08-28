@@ -473,6 +473,15 @@ class boss_thorim : public CreatureScript
                 _activePillarGUID.Clear();
             }
 
+            // ok, so we just respawned after evade
+            // problem is InitializeReactState is called AFTER Reset
+            // so we're in REACT_AGGRESIVE again (which we do not want)
+            // this hook is called on next update after that happens, thus we're free to set it to passive again
+            void JustRespawned() override
+            {
+                me->SetReactState(REACT_PASSIVE);
+            }
+
             void EnterEvadeMode(EvadeReason /*why*/) override
             {
                 summons.DespawnAll();
