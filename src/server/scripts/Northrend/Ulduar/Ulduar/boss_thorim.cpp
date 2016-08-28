@@ -103,7 +103,6 @@ enum Events
     EVENT_START_PERIODIC_CHARGE,
     EVENT_LIGHTNING_CHARGE,
     EVENT_ACTIVATE_LIGHTNING_FIELD,
-    EVENT_CHECK_PLAYER,
     EVENT_OUTRO_1,
     EVENT_OUTRO_2,
     EVENT_OUTRO_3,
@@ -596,7 +595,6 @@ class boss_thorim : public CreatureScript
                 events.ScheduleEvent(EVENT_CHARGE_ORB, 30000, 0, PHASE_1);
                 events.ScheduleEvent(EVENT_SUMMON_ADDS, 15000, 0, PHASE_1);
                 events.ScheduleEvent(EVENT_BERSERK, 369000);
-                events.ScheduleEvent(EVENT_CHECK_PLAYER, 10000);
 
                 DoCast(me, SPELL_SHEATH_OF_LIGHTNING);
 
@@ -760,11 +758,6 @@ class boss_thorim : public CreatureScript
                             }
                             break;
                         }
-                        case EVENT_CHECK_PLAYER:
-                            if (!me->GetMap()->GetPlayersCountExceptGMs())
-                                EnterEvadeMode();
-                            events.ScheduleEvent(EVENT_CHECK_PLAYER, 10000);
-                            break;
                         case EVENT_OUTRO_1:
                             Talk(_hardMode ? SAY_END_HARD_1 : SAY_END_NORMAL_1);
                             if (_hardMode)
