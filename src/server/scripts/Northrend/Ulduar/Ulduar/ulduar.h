@@ -269,6 +269,7 @@ enum UlduarGameObjects
     GO_THORIM_STONE_DOOR                    = 194558,
     GO_THORIM_ENCOUNTER_DOOR                = 194559,
     GO_THORIM_LEVER                         = 194264,
+    GO_THORIM_DARK_IRON_PORTCULLIS          = 194560,
 
     // Mimiron
     GO_MIMIRON_TRAM                         = 194675,

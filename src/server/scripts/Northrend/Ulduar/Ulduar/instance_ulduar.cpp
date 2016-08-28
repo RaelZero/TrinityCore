@@ -523,6 +523,9 @@ class instance_ulduar : public InstanceMapScript
                     case GO_THORIM_LEVER:
                         ThorimLeverGUID = gameObject->GetGUID();
                         break;
+                    case GO_THORIM_DARK_IRON_PORTCULLIS:
+                        ThorimDarkIronPortcullisGUID = gameObject->GetGUID();
+                        break;
                     case GO_CACHE_OF_STORMS_10:
                     case GO_CACHE_OF_STORMS_25:
                         CacheOfStormsGUID = gameObject->GetGUID();
@@ -815,8 +818,6 @@ class instance_ulduar : public InstanceMapScript
                         }
                         break;
                     case BOSS_THORIM:
-                        DoCloseDoorOrButton(ThorimLeverGUID);
-
                         if (state == DONE)
                         {
                             if (Creature* thorim = instance->GetCreature(ThorimGUID))
@@ -830,6 +831,11 @@ class instance_ulduar : public InstanceMapScript
                             }
 
                             instance->SummonCreature(NPC_THORIM_OBSERVATION_RING, ObservationRingKeepersPos[2]);
+                        }
+                        else
+                        {
+                            DoCloseDoorOrButton(ThorimLeverGUID);
+                            DoCloseDoorOrButton(ThorimDarkIronPortcullisGUID);
                         }
                         break;
                     case BOSS_ALGALON:
@@ -1310,6 +1316,7 @@ class instance_ulduar : public InstanceMapScript
             ObjectGuid SifGUID;
             ObjectGuid SifBlizzardGUID;
             ObjectGuid ThorimLeverGUID;
+            ObjectGuid ThorimDarkIronPortcullisGUID;
             ObjectGuid RunicColossusGUID;
             ObjectGuid RuneGiantGUID;
             ObjectGuid RunicDoorGUID;
