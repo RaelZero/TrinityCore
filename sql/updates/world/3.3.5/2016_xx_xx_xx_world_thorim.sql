@@ -33,7 +33,8 @@ INSERT INTO `creature_text` (`entry`, `groupid`, `id`, `text`, `type`, `language
 
 -- Lever SAI
 SET @ENTRY := 194264;
-UPDATE `gameobject_template` SET `flags`=32, `AIName`='SmartGameObjectAI' WHERE `entry`=@ENTRY;
+UPDATE `gameobject_template` SET `AIName`='SmartGameObjectAI' WHERE `entry`=@ENTRY;
+UPDATE `gameobject_template_addon` SET `flags`=32 WHERE `entry`=@ENTRY;
 DELETE FROM `smart_scripts` WHERE `entryorguid`=@ENTRY AND `source_type`=1;
 INSERT INTO `smart_scripts` (`entryorguid`,`source_type`,`id`,`link`,`event_type`,`event_phase_mask`,`event_chance`,`event_flags`,`event_param1`,`event_param2`,`event_param3`,`event_param4`,`action_type`,`action_param1`,`action_param2`,`action_param3`,`action_param4`,`action_param5`,`action_param6`,`target_type`,`target_param1`,`target_param2`,`target_param3`,`target_x`,`target_y`,`target_z`,`target_o`,`comment`) VALUES
 (@ENTRY,1,0,0,70,0,100,0,2,0,0,0,9,0,0,0,0,0,0,14,34155,0,0,0,0,0,0,'Lever - On Gameobject State Changed - Activate Gameobject');
@@ -178,8 +179,6 @@ INSERT INTO `achievement_criteria_data` (`criteria_id`,`type`,`value1`,`value2`,
 (10312,11,0,0,'achievement_i_ll_take_you_all_on'), -- I'll Take You All On (25 player) - Participate in slaying Ancient Rune Giant
 (10312,12,1,0,'');
 
-UPDATE `gameobject_template` SET `faction`=94, `flags`=16, `size`=3 WHERE `entry` IN (194312,194313,194314,194315);
-
 DELETE FROM `creature` WHERE `id` IN (32882,32908,32907,32885,32883,32886); -- PreAdds
 DELETE FROM `creature` WHERE `id` IN (32874,32875,33110); -- Colossus, Giant Adds
 
@@ -188,6 +187,17 @@ SET @CGUID:=136446;
 DELETE FROM `creature` WHERE `id`=32879;
 INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `spawndist`, `MovementType`) VALUES
 (@CGUID, 32879, 603, 3, 1, 2134.774, -262.3073, 428.6936, 1.343904, 7200, 0, 0); -- 32879 (Area: 0) (Auras: 62184 - 62184)
+
+UPDATE `gameobject_template` SET `size`=3 WHERE `entry`=194315;
+UPDATE `gameobject_template_addon` SET `faction`=94, `flags`=16 WHERE `entry` IN (194313,194314,194315);
+
+SET @OGUID := 6570; -- 4 free guids
+DELETE FROM `gameobject` WHERE `id` IN (194312,194313,194314,194315);
+INSERT INTO `gameobject` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `rotation0`, `rotation1`, `rotation2`, `rotation3`, `spawntimesecs`, `animprogress`, `state`, `VerifiedBuild`) values
+(@OGUID+0,194312,603,1,1,2134.948,-286.436,419.5051,1.588249,0,0,0.7132502,0.7009096,-2592000,255,1,0),
+(@OGUID+1,194313,603,1,1,2134.948,-286.436,419.5051,1.588249,0,0,0.7132502,0.7009096,-2592000,255,1,0),
+(@OGUID+2,194314,603,2,1,2134.948,-286.436,419.5051,1.588249,0,0,0.7132502,0.7009096,-2592000,255,1,0),
+(@OGUID+3,194315,603,2,1,2134.948,-286.436,419.5051,1.588249,0,0,0.7132502,0.7009096,-2592000,255,1,0);
 
 UPDATE `gameobject_loot_template` SET `LootMode`=1 WHERE `Entry`=27074;
 DELETE FROM `gameobject_loot_template` WHERE `Entry` IN (26955,26956);

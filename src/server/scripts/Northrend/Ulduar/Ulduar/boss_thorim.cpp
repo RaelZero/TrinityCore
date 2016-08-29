@@ -334,9 +334,6 @@ G3D::Vector3 const LightningOrbPath[LightningOrbPathSize] =
 Position const ArenaCenter = { 2135.0f, -263.0f, 420.0f, 0.0f }; // used for trash jump calculation
 Position const LightningFieldCenter = { 2135.0f, -312.5f, 438.0f, 0.0f }; // used for lightning field calculation
 
-Position const CacheOfStormsPos = { 2134.948f, -286.436f, 419.5051f, 1.588249f };
-G3D::Quat const CacheOfStormsRot = { 0.f, 0.f, 0.7132502f, 0.7009096f };
-
 // p2 start at 5357
 
 class RunicSmashExplosionEvent : public BasicEvent
@@ -573,11 +570,6 @@ class boss_thorim : public CreatureScript
                         Sif->DespawnOrUnsummon(10000);
                     }
                 }
-
-                if (_hardMode)
-                    me->SummonGameObject(RAID_MODE(GO_CACHE_OF_STORMS_HARDMODE_10, GO_CACHE_OF_STORMS_HARDMODE_25), CacheOfStormsPos, CacheOfStormsRot, WEEK);
-                else
-                    me->SummonGameObject(RAID_MODE(GO_CACHE_OF_STORMS_10, GO_CACHE_OF_STORMS_25), CacheOfStormsPos, CacheOfStormsRot, WEEK);
 
                 _JustDied();
 
