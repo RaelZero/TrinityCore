@@ -320,8 +320,6 @@ public:
                     events.ScheduleEvent(EVENT_GHOUL_EXPLODE, 8000);
 
                     // Army of the Dead
-                    // disabling movement temporarily so the spell wont get interrupted
-                    me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
                     DoCast(SPELL_ARMY_DEAD);
                 }
             }
@@ -672,35 +670,6 @@ class spell_black_knight_obliterate : public SpellScriptLoader
         }
 };
 
-class spell_black_knight_army_of_the_dead : public SpellScriptLoader
-{
-    public:
-        spell_black_knight_army_of_the_dead() : SpellScriptLoader("spell_black_knight_army_of_the_dead") { }
-
-        class spell_black_knight_army_of_the_dead_AuraScript : public AuraScript
-        {
-            PrepareAuraScript(spell_black_knight_army_of_the_dead_AuraScript);
-
-            void RemoveFlag(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
-            {
-                // that is wrong, movement disabled by spell (channel)
-                // On aura remove we must remove disable movement flag
-                if (Unit* caster = GetCaster())
-                    caster->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_DISABLE_MOVE);
-            }
-
-            void Register() override
-            {
-                AfterEffectRemove += AuraEffectRemoveFn(spell_black_knight_army_of_the_dead_AuraScript::RemoveFlag, EFFECT_0, SPELL_AURA_PERIODIC_TRIGGER_SPELL, AURA_EFFECT_HANDLE_REAL);
-            }
-        };
-
-        AuraScript* GetAuraScript() const override
-        {
-            return new spell_black_knight_army_of_the_dead_AuraScript();
-        }
-};
-
 class spell_black_knight_ghoul_explode : public SpellScriptLoader
 {
     public:
@@ -758,7 +727,6 @@ void AddSC_boss_black_knight()
     new npc_black_knight_skeletal_gryphon();
     new spell_black_knight_deaths_push();
     new spell_black_knight_obliterate();
-    new spell_black_knight_army_of_the_dead();
     new spell_black_knight_ghoul_explode();
     new achievement_ive_had_worse();
 }

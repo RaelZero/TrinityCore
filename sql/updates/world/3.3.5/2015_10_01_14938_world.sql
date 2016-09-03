@@ -43,12 +43,6 @@ INSERT INTO `spell_script_names` VALUES
 (67725,'spell_black_knight_obliterate'),
 (67883,'spell_black_knight_obliterate');
 
--- Spellscript for The Black Knight's Army of the Dead
-DELETE FROM `spell_script_names` WHERE `spell_id` IN (67761,67874) AND `ScriptName`='spell_black_knight_army_of_the_dead';
-INSERT INTO `spell_script_names` VALUES
-(67761,'spell_black_knight_army_of_the_dead'),
-(67874,'spell_black_knight_army_of_the_dead');
-
 -- Spellscript for The Black Knight's Ghoul Explode
 DELETE FROM `spell_script_names` WHERE `spell_id`=67751 AND `ScriptName`='spell_black_knight_ghoul_explode';
 INSERT INTO `spell_script_names` VALUES (67751,'spell_black_knight_ghoul_explode');
