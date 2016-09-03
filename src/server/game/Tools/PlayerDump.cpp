@@ -319,10 +319,10 @@ bool PlayerDumpWriter::DumpTable(std::string& dump, ObjectGuid::LowType guid, ch
                     break;
                 case DTT_CHARACTER:
                 {
-                    if (result->GetFieldCount() <= 73)          // avoid crashes on next check
+                    if (result->GetFieldCount() <= 74)          // avoid crashes on next check
                         TC_LOG_FATAL("misc", "PlayerDumpWriter::DumpTable - Trying to access non-existing or wrong positioned field (`deleteInfos_Account`) in `characters` table.");
 
-                    if (result->Fetch()[73].GetUInt32())        // characters.deleteInfos_Account - if filled error
+                    if (result->Fetch()[74].GetUInt32())        // characters.deleteInfos_Account - if filled error
                         return false;
                     break;
                 }
@@ -546,18 +546,18 @@ DumpReturn PlayerDumpReader::LoadDump(std::string const& file, uint32 account, s
                     PreparedQueryResult result = CharacterDatabase.Query(stmt);
 
                     if (result)
-                        if (!ChangeNth(line, 37, "1"))      // characters.at_login set to "rename on login"
+                        if (!ChangeNth(line, 38, "1"))      // characters.at_login set to "rename on login"
                             ROLLBACK(DUMP_FILE_BROKEN);
                 }
                 else if (!ChangeNth(line, 3, name.c_str())) // characters.name
                     ROLLBACK(DUMP_FILE_BROKEN);
 
                 const char null[5] = "NULL";
-                if (!ChangeNth(line, 74, null))             // characters.deleteInfos_Account
+                if (!ChangeNth(line, 75, null))             // characters.deleteInfos_Account
                     ROLLBACK(DUMP_FILE_BROKEN);
-                if (!ChangeNth(line, 75, null))             // characters.deleteInfos_Name
+                if (!ChangeNth(line, 76, null))             // characters.deleteInfos_Name
                     ROLLBACK(DUMP_FILE_BROKEN);
-                if (!ChangeNth(line, 76, null))             // characters.deleteDate
+                if (!ChangeNth(line, 77, null))             // characters.deleteDate
                     ROLLBACK(DUMP_FILE_BROKEN);
                 break;
             }
