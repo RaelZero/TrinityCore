@@ -84,6 +84,15 @@ DiminishingGroup GetDiminishingReturnsGroupForSpell(SpellInfo const* spellproto,
             // Screams of the Dead (King Ymiron)
             else if (spellproto->Id == 51750)
                 return DIMINISHING_NONE;
+            // Triggered trample aura (ToC 5)
+            else if (spellproto->Id == 67868)
+                return DIMINISHING_NONE;
+            // The Black Knight's Death's Respite (ToC 5)
+            else if (spellproto->Id == 67745)
+                return DIMINISHING_NONE;
+            // The Black Knight's Death's Respite (Heroic ToC 5)
+            else if (spellproto->Id == 68306)
+                return DIMINISHING_NONE;
             break;
         }
         // Event spells
@@ -3375,6 +3384,32 @@ void SpellMgr::LoadSpellInfoCorrections()
             case 29726: // Test Ribbon Pole Channel
                 spellInfo->InterruptFlags &= ~AURA_INTERRUPT_FLAG_CAST;
                 break;
+            // TRIAL OF THE CHAMPION SPELLS
+            //
+            case 67546: // Warrior Grand Champion - Rolling Throw
+                // Should hit both caster and target
+                spellInfo->Effects[EFFECT_0].TargetB = SpellImplicitTargetInfo(TARGET_UNIT_TARGET_ENEMY);
+                break;
+            case 66797: // The Black Knight - Death's Push (casted on announcer)
+                // The duration is correct otherwise but announcer dies currently in mid-air
+                // this happens because blizzard has 100-200ms delay before applying an aura
+                // so in retail announcer makes it on the ground before dying
+                spellInfo->DurationEntry = sSpellDurationStore.LookupEntry(39); // 2 seconds instead of 1.7 seconds
+                break;
+            case 67779: // The Black Knight - Desecration
+                // According to several videos the desecration players lose the desecration debuff in 12 seconds of cast
+                // There is an invisible stalker triggering every 2 seconds a desecration debuff
+                // so setting 10 second duration is correct
+                // besides the visual desecration on the ground disappears in 10 seconds of cast
+                spellInfo->DurationEntry = sSpellDurationStore.LookupEntry(1); // 10 seconds instead of 15 seconds
+                break;
+            case 67802: // The Black Knight - Desecration Arm
+                // in 3.3.5 there is only one radius in dbc which is 0 yards in this case
+                // use max radius from 4.3.4
+                spellInfo->Effects[EFFECT_0].RadiusEntry = sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_7_YARDS);
+                break;
+            // ENDOF TRIAL OF THE CHAMPION SPELLS
+            //
             // VIOLET HOLD SPELLS
             //
             case 54258: // Water Globule (Ichoron)
