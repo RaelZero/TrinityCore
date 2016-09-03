@@ -845,10 +845,11 @@ namespace Trinity
     class AnyFriendlyUnitInObjectRangeCheck
     {
         public:
-            AnyFriendlyUnitInObjectRangeCheck(WorldObject const* obj, Unit const* funit, float range, bool playerOnly = false) : i_obj(obj), i_funit(funit), i_range(range), i_playerOnly(playerOnly) { }
+            AnyFriendlyUnitInObjectRangeCheck(WorldObject const* obj, Unit const* funit, float range, bool playerOnly = false, bool incOwnRadius = true, bool incTargetRadius = true)
+                : i_obj(obj), i_funit(funit), i_range(range), i_playerOnly(playerOnly), i_incOwnRadius(incOwnRadius), i_incTargetRadius(incTargetRadius) { }
             bool operator()(Unit* u)
             {
-                if (u->IsAlive() && i_obj->IsWithinDistInMap(u, i_range) && i_funit->IsFriendlyTo(u) && (!i_playerOnly || u->GetTypeId() == TYPEID_PLAYER))
+                if (u->IsAlive() && i_obj->IsWithinDistInMap(u, i_range, i_incOwnRadius, i_incTargetRadius) && i_funit->IsFriendlyTo(u) && (!i_playerOnly || u->GetTypeId() == TYPEID_PLAYER))
                     return true;
                 else
                     return false;
@@ -858,6 +859,8 @@ namespace Trinity
             Unit const* i_funit;
             float i_range;
             bool i_playerOnly;
+            bool i_incOwnRadius;
+            bool i_incTargetRadius;
     };
 
     class AnyGroupedUnitInObjectRangeCheck
@@ -931,8 +934,8 @@ namespace Trinity
     class AnyAoETargetUnitInObjectRangeCheck
     {
         public:
-            AnyAoETargetUnitInObjectRangeCheck(WorldObject const* obj, Unit const* funit, float range)
-                : i_obj(obj), i_funit(funit), _spellInfo(NULL), i_range(range)
+            AnyAoETargetUnitInObjectRangeCheck(WorldObject const* obj, Unit const* funit, float range, bool incOwnRadius = true, bool incTargetRadius = true)
+                : i_obj(obj), i_funit(funit), _spellInfo(NULL), i_range(range), i_incOwnRadius(incOwnRadius), i_incTargetRadius(incTargetRadius)
             {
                 Unit const* check = i_funit;
                 Unit const* owner = i_funit->GetOwner();
@@ -948,7 +951,7 @@ namespace Trinity
                 if (u->GetTypeId() == TYPEID_UNIT && u->IsTotem())
                     return false;
 
-                if (i_funit->_IsValidAttackTarget(u, _spellInfo, i_obj->GetTypeId() == TYPEID_DYNAMICOBJECT ? i_obj : NULL) && i_obj->IsWithinDistInMap(u, i_range))
+                if (i_funit->_IsValidAttackTarget(u, _spellInfo, i_obj->GetTypeId() == TYPEID_DYNAMICOBJECT ? i_obj : NULL) && i_obj->IsWithinDistInMap(u, i_range, true, i_incOwnRadius, i_incTargetRadius))
                     return true;
 
                 return false;
@@ -959,6 +962,8 @@ namespace Trinity
             Unit const* i_funit;
             SpellInfo const* _spellInfo;
             float i_range;
+            bool i_incOwnRadius;
+            bool i_incTargetRadius;
     };
 
     // do attack at call of help to friendly crearture
