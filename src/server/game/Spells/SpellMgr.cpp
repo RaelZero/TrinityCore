@@ -3461,6 +3461,13 @@ void SpellMgr::LoadSpellInfoCorrections()
                 // that will be clear if we get more spells with problem like this
                 spellInfo->AttributesEx |= SPELL_ATTR1_DISPEL_AURAS_ON_IMMUNITY;
                 break;
+            case 62576: // Blizzard (Thorim)
+            case 62602:
+                // @workaround: looks like TARGET_DEST_CASTER in effect 0 overrides
+                // TARGET_DEST_CASTER_LEFT in effect 1, this aura needs to spawn 13 yds to the left of the caster
+                // without this was spawning at caster's pos.
+                spellInfo->Effects[EFFECT_0].TargetA = SpellImplicitTargetInfo(TARGET_DEST_CASTER_LEFT);
+                break;
             case 63414: // Spinning Up (Mimiron)
                 spellInfo->Effects[EFFECT_0].TargetB = SpellImplicitTargetInfo(TARGET_UNIT_CASTER);
                 spellInfo->ChannelInterruptFlags = 0;
