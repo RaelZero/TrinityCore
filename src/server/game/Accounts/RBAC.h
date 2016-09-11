@@ -749,6 +749,9 @@ enum RBACPermissions
     RBAC_PERM_COMMAND_CHARACTER_MASQUERADE                   = 842,
     RBAC_PERM_COMMAND_NPC_SPAWNGROUP                         = 842,
     RBAC_PERM_COMMAND_NPC_DESPAWNGROUP                       = 843,
+    RBAC_PERM_COMMAND_RELOAD_CHARACTER_TEMPLATE              = 842, // not on 3.3.5a
+    RBAC_PERM_COMMAND_RELOAD_QUEST_GREETING                  = 843, // not on 3.3.5a
+    RBAC_PERM_COMMAND_DEBUG_SEND_PLAYSCENE                   = 844, // not on 3.3.5a
     RBAC_PERM_COMMAND_GOBJECT_SPAWNGROUP                     = 844,
     RBAC_PERM_COMMAND_GOBJECT_DESPAWNGROUP                   = 845,
     RBAC_PERM_COMMAND_LIST_RESPAWNS                          = 846,
